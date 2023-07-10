@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 export const Locations = () => {
-    const [locations, setLocations] = useState([]);
+    const [locations, setLocations] = useState([])
 
     useEffect(() => {
         fetch('http://localhost:8088/locations')
@@ -13,7 +13,8 @@ export const Locations = () => {
 
     return (
         <>
-            <h2>Our Locations</h2>
+            <h3>Our Locations</h3>
+
             <ul>
                 {locations.map(location => {
                     return (
