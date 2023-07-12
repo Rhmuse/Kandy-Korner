@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const Products = () => {
     const [products, setProducts] = useState([])
     const [filteredProducts, setFilteredProducts] = useState([])
+    const [productTypes, setProductTypes] = useState([])
+
+    const navigate = useNavigate; 
 
     const user = JSON.parse(localStorage.getItem("kandy_user"))
 
@@ -15,6 +19,18 @@ export const Products = () => {
                 setFilteredProducts(sortedAlphabeticallyProducts);
             })
     }, [])
+
+    useEffect(() => {
+        fetch('http://localhost:8088/productTypes')
+            .then(res => res.json())
+            .then((types => {
+                setProductTypes(types)
+                products.forEach(product => {
+                    let foundType = productTypes.find(type => product.typeId === type.id)
+                    product.type = foundType.type; 
+                })
+            }))
+    })
 
     const handleTopPrice = () => {
         const topPricedItems = products.filter(product => product.price >= 2)
@@ -46,11 +62,14 @@ export const Products = () => {
                         <button
                             onClick={() => { (handleTopPrice()) }}
                         >Top Price</button>
+                        <button
+                            onClick={() => { (navigate('/products/newProduct') )}}
+                        >New Product</button>
                         <ul>
                             {
                                 filteredProducts.map(product => {
                                     return <li key={"product--" + product.id}>
-                                        {product.name} --- ${product.price}
+                                        {product.name} --- {product.type} --- ${product.price}
                                     </li>
                                 })
                             }
