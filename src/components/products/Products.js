@@ -9,12 +9,11 @@ export const Products = () => {
     const user = JSON.parse(localStorage.getItem("kandy_user"))
 
     useEffect(() => {
-        fetch('http://localhost:8088/products')
+        fetch('http://localhost:8088/products?_sort=name')
             .then(res => res.json())
             .then((products) => {
                 setProducts(products)
-                let sortedAlphabeticallyProducts = sortProductsAlphabetically(products)
-                setFilteredProducts(sortedAlphabeticallyProducts);
+                setFilteredProducts(products)
             })
     }, [])
 
@@ -38,15 +37,6 @@ export const Products = () => {
     const handleAllProducts = () => {
         setFilteredProducts(products)
     }
-
-    const sortProductsAlphabetically = (productArr) => {
-        return productArr.sort((a, b) => {
-            let nameA = a.name.toUpperCase()
-            let nameB = b.name.toUpperCase()
-            return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-        })
-    }
-
 
     return (
         <>
