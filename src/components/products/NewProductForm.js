@@ -1,29 +1,62 @@
+import { useEffect, useState } from "react";
+
 export const NewProductForm = () => {
+    const [productTypes, setProductTypes] = useState([]);
+    const [newProduct, setNewProduct] = useState({
+        name: "",
+        typeId: null, 
+    })
+
+    useEffect(() => {
+        fetch('http://localhost:8088/productTypes')
+        .then(res => res.json())
+        .then((types => {
+            setProductTypes(types)
+        }))
+    },[])
+
     return (
-        <form className="ticketForm">
-            <h2 className="ticketForm__title">New Service Ticket</h2>
+        <form className="productForm">
+            <h2 className="newProductForm__title">New Product</h2>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="description">Description:</label>
+                    <label htmlFor="description">Name:</label>
                     <input
                         required autoFocus
                         type="text"
                         className="form-control"
-                        placeholder="Brief description of problem"
+                        placeholder="Name of Product"
                         value=''
-                        onChange={console.log("click")} />
+                        onChange={
+                            (e) => {
+                                const copy = { ...newProduct }
+                                copy.name = e.target.value
+                                setNewProduct(copy); 
+                            }
+                        }></input>
                 </div>
             </fieldset>
             <fieldset>
                 <div className="form-group">
-                    <label htmlFor="name">Emergency:</label>
-                    <input type="checkbox"
-                        value={false}
-                        onChange={console.log("click")} />
+                    <label htmlFor="name">Product Type</label><br />
+                        <select onChange={
+                            (e) => {
+                                const copy = { ...newProduct }
+                                copy.typeId = e.target.value
+                                setNewProduct(copy); 
+                            }
+                        }>
+                            <option value={null}>Select a type...</option>
+                            {
+                                productTypes.map(type => {
+                                    return <option value={type.id}>{type.name}</option>
+                                })
+                            }
+                        </select>
                 </div>
             </fieldset>
             <button className="btn btn-primary">
-                Submit Ticket
+                Save Product
             </button>
         </form>
     )

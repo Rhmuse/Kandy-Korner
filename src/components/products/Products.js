@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 export const Products = () => {
     const [products, setProducts] = useState([])
     const [filteredProducts, setFilteredProducts] = useState([])
     const [productTypes, setProductTypes] = useState([])
-
-    const navigate = useNavigate; 
 
     const user = JSON.parse(localStorage.getItem("kandy_user"))
 
@@ -30,7 +28,7 @@ export const Products = () => {
                     product.type = foundType.type; 
                 })
             }))
-    })
+    },[])
 
     const handleTopPrice = () => {
         const topPricedItems = products.filter(product => product.price >= 2)
@@ -62,9 +60,7 @@ export const Products = () => {
                         <button
                             onClick={() => { (handleTopPrice()) }}
                         >Top Price</button>
-                        <button
-                            onClick={() => { (navigate('/products/newProduct') )}}
-                        >New Product</button>
+                        <NavLink to='/products/newProduct'><button>New Product</button></NavLink>
                         <ul>
                             {
                                 filteredProducts.map(product => {
