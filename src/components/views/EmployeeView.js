@@ -3,6 +3,7 @@ import { Locations } from '../locations/Locations'
 import { Products } from '../products/Products'
 import { CustomerList } from '../customers/CustomerList'
 import { CustomerDetails } from '../customers/CustomerDetails'
+import { NewProductForm } from '../products/NewProductForm'
 
 export const EmployeeView = () => {
 
@@ -21,6 +22,9 @@ export const EmployeeView = () => {
                 } />
                 <Route path='/products' element={
                     <Products />
+                } />
+                <Route path='/products/newProduct' element={
+                    <NewProductForm />
                 } />
                 <Route path='/customers' element={
                     <CustomerList />
