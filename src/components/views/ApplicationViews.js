@@ -1,27 +1,13 @@
-import { Routes, Route, Outlet } from 'react-router-dom'
-import { Locations } from '../locations/Locations'
-import { Products } from '../products/Products'
+import { EmployeeView } from './EmployeeView'
+import { CustomerView } from './CustomerView'
 
 export const ApplicationViews = () => {
-	return (
-		<Routes>
-			<Route path="/" element={
-				<>
-					<h1>Kandy Korner</h1>
-					<h2>Get some candy here!</h2>
+	const user = JSON.parse(localStorage.getItem("kandy_user"))
 
-					<Outlet />
-				</>
-			}>
-				<Route path='/locations' element={
-					<Locations />
-				} />
-				<Route path='/products' element={
-					<Products />
-				} />
-
-			</Route>
-		</Routes>
-	)
+	if (user.staff) {
+		return <EmployeeView />
+	} else {
+		return <CustomerView />
+	}
 }
 
