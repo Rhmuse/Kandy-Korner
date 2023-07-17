@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 export const Products = () => {
     const [products, setProducts] = useState([])
@@ -12,8 +13,7 @@ export const Products = () => {
             .then(res => res.json())
             .then((products) => {
                 setProducts(products)
-                let sortedAlphabeticallyProducts = sortProductsAlphabetically(products)
-                setFilteredProducts(sortedAlphabeticallyProducts);
+                setFilteredProducts(products)
             })
     }, [])
 
@@ -31,15 +31,6 @@ export const Products = () => {
         setFilteredProducts(products)
     }
 
-    const sortProductsAlphabetically = (productArr) => {
-        return productArr.sort((a, b) => {
-            let nameA = a.name.toUpperCase()
-            let nameB = b.name.toUpperCase()
-            return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-        })
-    }
-
-
     return (
         <>
             <h3>Our Products</h3>
@@ -52,6 +43,7 @@ export const Products = () => {
                         <button
                             onClick={() => { (handleTopPrice()) }}
                         >Top Price</button>
+                        <NavLink to='/products/newProduct'><button>New Product</button></NavLink>
                         <ul>
                             {
                                 filteredProducts.map(product => {
